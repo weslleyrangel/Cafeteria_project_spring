@@ -1,5 +1,7 @@
 package com.estudos.Cafeteria;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/orders")
+@Tag(name = "Orders", description = "Order Manager")
 public class OrderController {
     private static final Map<Long, Order> orderMap = new ConcurrentHashMap<>();
     private static final AtomicLong idOrder = new AtomicLong();
@@ -37,6 +40,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create a new order", description = "Create a new order")
     public Order create(@RequestBody Order orderRequest) {
         long id = idOrder.incrementAndGet();
         Order newOrder = new Order(id, orderRequest.description(), orderRequest.value(), "R");
